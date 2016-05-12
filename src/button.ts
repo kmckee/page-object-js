@@ -1,21 +1,16 @@
-
 import {getBrowser} from "./index";
-//const   By      = require('selenium-webdriver').By;
 import * as selwd from "selenium-webdriver";
-const by: typeof selwd.By = selwd.By;
+import {ILocator} from "./locators";
 
 export class Button {
-    private _locator: any;
-    constructor(locator: any) {
+    private _locator: ILocator;
+    constructor(locator: ILocator) {
         this._locator = locator;
     }
-    get visible(): any {
-        return getBrowser().isElementPresent(by.id(this._locator.id));  //<== De-promisify
+    get visible(): selwd.promise.Promise<boolean> {
+        return getBrowser().isElementPresent(this._locator.find());
     }
-    get isEnabled(): any /*Promise<boolean>*/ {
-        return getBrowser().findElement(by.id(this._locator.id)).isEnabled();
+    get isEnabled(): selwd.promise.Promise<boolean> {
+        return this._locator.find().isEnabled();
     }
 }
-
-//Other thoughts:
-// Someone else should handle mapping our locator object to the fluent syntax

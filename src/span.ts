@@ -1,8 +1,8 @@
 import BaseElement from "./base";
-import Locator from "./locator";
+import { ILocator } from "./locators";
 
 export class Span extends BaseElement {
-    constructor(locator: Locator) {
+    constructor(locator: ILocator) {
         super(locator);
     }
 }

@@ -1,33 +1,26 @@
 import * as selwd from "selenium-webdriver";
-const by: typeof selwd.By = selwd.By;
-
-import {getBrowser} from "./index";
-import Locator, { IIdLocator } from "./locator";
+import { ILocator } from "./locators";
 
 export default class BaseElement {
-    private _locator: Locator;
+    private _locator: ILocator;
 
-    constructor(locator: Locator) {
+    constructor(locator: ILocator) {
         this._locator = locator;
     }
 
     public click(): selwd.promise.Promise<void> {
-        return this._getElement(getBrowser(), this._locator).click();
+        return this._locator.find().click();
     }
 
     get innerHtml(): selwd.promise.Promise<string> {
-        return this._getElement(getBrowser(), this._locator).getInnerHtml();
+        return this._locator.find().getInnerHtml();
     }
 
     get outerHtml(): selwd.promise.Promise<string> {
-        return this._getElement(getBrowser(), this._locator).getOuterHtml();
+        return this._locator.find().getOuterHtml();
     }
 
     get text(): selwd.promise.Promise<string> {
-        return this._getElement(getBrowser(), this._locator).getText();
-    }
-
-    private _getElement(browser: selwd.WebDriver, locator: Locator):selwd.WebElement {
-        return browser.findElement(by.id((<IIdLocator>locator).id));
+        return this._locator.find().getText();
     }
 }
